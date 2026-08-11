@@ -1,0 +1,8 @@
+NAS Image Mirror
+
+This project was inspired by and migrates ideas from docker_image_pusher,
+originally published by 技术爬爬虾 under the Apache License 2.0.
+
+The implementation, manifest model, multi-platform copy flow, validation,
+and tests in this repository have been substantially rewritten for long-term
+operation with self-hosted OCI registries and optional cloud replicas.

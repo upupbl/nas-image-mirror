@@ -1,0 +1,111 @@
+name: Mirror OCI images
+
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: Images to mirror
+        required: true
+        default: all
+        type: choice
+        options: [all, changed]
+      destinations:
+        description: Destination registries
+        required: true
+        default: home
+        type: choice
+        options: [home, aliyun, "home,aliyun"]
+      dry_run:
+        description: Validate the plan without copying
+        required: true
+        default: false
+        type: boolean
+  push:
+    branches: [main]
+    paths:
+      - images.yml
+      - scripts/mirror.py
+      - .github/workflows/mirror.yml
+  schedule:
+    - cron: "23 18 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    if: github.event_name == 'workflow_dispatch' || vars.MIRROR_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 240
+    env:
+      HOME_REGISTRY: ${{ secrets.HOME_REGISTRY }}
+      HOME_NAMESPACE: ${{ secrets.HOME_NAMESPACE }}
+      HOME_REGISTRY_USER: ${{ secrets.HOME_REGISTRY_USER }}
+      HOME_REGISTRY_PASSWORD: ${{ secrets.HOME_REGISTRY_PASSWORD }}
+      ALIYUN_REGISTRY: ${{ secrets.ALIYUN_REGISTRY }}
+      ALIYUN_NAMESPACE: ${{ secrets.ALIYUN_NAME_SPACE }}
+      ALIYUN_REGISTRY_USER: ${{ secrets.ALIYUN_REGISTRY_USER }}
+      ALIYUN_REGISTRY_PASSWORD: ${{ secrets.ALIYUN_REGISTRY_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Install mirror dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends skopeo
+          python3 -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Validate manifest
+        run: python3 scripts/mirror.py validate
+
+      - name: Select run parameters
+        id: params
+        env:
+          REQUESTED_SCOPE: ${{ inputs.scope }}
+          REQUESTED_DESTINATIONS: ${{ inputs.destinations }}
+          REQUESTED_DRY_RUN: ${{ inputs.dry_run }}
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          scope="${REQUESTED_SCOPE:-all}"
+          destinations="${REQUESTED_DESTINATIONS:-home}"
+          dry_run="${REQUESTED_DRY_RUN:-false}"
+
+          if [[ "${GITHUB_EVENT_NAME}" == "push" ]]; then
+            scope="changed"
+            if [[ -n "${BEFORE_SHA}" ]] && git diff --name-only "${BEFORE_SHA}" "${GITHUB_SHA}" -- scripts/mirror.py .github/workflows/mirror.yml | grep -q .; then
+              scope="all"
+            fi
+          fi
+
+          echo "scope=${scope}" >>"${GITHUB_OUTPUT}"
+          echo "destinations=${destinations}" >>"${GITHUB_OUTPUT}"
+          echo "dry_run=${dry_run}" >>"${GITHUB_OUTPUT}"
+
+      - name: Mirror images
+        env:
+          BEFORE_SHA: ${{ github.event.before }}
+        run: |
+          args=(
+            mirror
+            --scope "${{ steps.params.outputs.scope }}"
+            --destinations "${{ steps.params.outputs.destinations }}"
+          )
+          if [[ -n "${BEFORE_SHA}" ]]; then
+            args+=(--base-ref "${BEFORE_SHA}")
+          fi
+          if [[ "${{ steps.params.outputs.dry_run }}" == "true" ]]; then
+            args+=(--dry-run)
+          fi
+          python3 scripts/mirror.py "${args[@]}"
+
+      - name: Remove registry sessions
+        if: always()
+        run: rm -f "${XDG_RUNTIME_DIR:-/tmp}/containers/auth.json" "${HOME}/.config/containers/auth.json"

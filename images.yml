@@ -1,0 +1,182 @@
+version: 1
+
+# `target` values are relative to the destination registry and namespace.
+# A single source tag keeps its upstream multi-platform manifest intact.
+images:
+  - id: immich-server
+    source: ghcr.io/immich-app/immich-server:v3.1.0
+    targets:
+      home: immich/server:v3.1.0
+      aliyun: immich-server:v3.1.0
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: immich-machine-learning
+    source: ghcr.io/immich-app/immich-machine-learning:v3.1.0
+    targets:
+      home: immich/machine-learning:v3.1.0
+      aliyun: immich-machine-learning:v3.1.0
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: immich-postgres
+    source: ghcr.io/immich-app/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+    targets:
+      home: immich/postgres:14-vectorchord0.4.3-pgvectors0.2.0
+      aliyun: immich-postgres:14-vectorchord0.4.3-pgvectors0.2.0
+
+  - id: valkey-9
+    source: docker.io/valkey/valkey:9
+    targets:
+      home: common/valkey:9
+      aliyun: valkey:9
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: postgres-18
+    source: docker.io/library/postgres:18
+    targets:
+      home: common/postgres:18
+      aliyun: postgres:18
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: qbittorrent
+    source: lscr.io/linuxserver/qbittorrent:5.2.3
+    targets:
+      home: common/qbittorrent:5.2.3
+      aliyun: qbittorrent:5.2.3
+
+  - id: paperless
+    source: ghcr.io/paperless-ngx/paperless-ngx:latest
+    targets:
+      home: paperless/server:latest
+      aliyun: paperless-server:latest
+
+  - id: gotenberg
+    source: docker.io/gotenberg/gotenberg:8.34
+    targets:
+      home: paperless/gotenberg:8.34
+      aliyun: gotenberg:8.34
+
+  - id: tika
+    source: docker.io/apache/tika:latest
+    targets:
+      home: paperless/tika:latest
+      aliyun: tika:latest
+
+  - id: stirling-pdf
+    source: docker.io/stirlingtools/stirling-pdf:latest-fat
+    targets:
+      home: stirling/stirling-pdf:latest-fat
+      aliyun: stirling-pdf:latest-fat
+
+  - id: vaultwarden
+    source: docker.io/vaultwarden/server:latest
+    targets:
+      home: vaultwarden/server:latest
+      aliyun: vaultwarden:latest
+
+  - id: homepage
+    source: ghcr.io/gethomepage/homepage:latest
+    targets:
+      home: homepage/server:latest
+      aliyun: homepage:latest
+
+  - id: docker-socket-proxy
+    source: ghcr.io/tecnativa/docker-socket-proxy:latest
+    targets:
+      home: common/docker-socket-proxy:latest
+      aliyun: docker-socket-proxy:latest
+
+  - id: open-webui
+    source: ghcr.io/open-webui/open-webui:main
+    targets:
+      home: open-webui/server:main
+      aliyun: open-webui:main
+
+  - id: audiobookshelf
+    source: ghcr.io/advplyr/audiobookshelf:latest
+    targets:
+      home: audiobookshelf/server:latest
+      aliyun: audiobookshelf:latest
+
+  - id: kavita
+    source: lscr.io/linuxserver/kavita:latest
+    targets:
+      home: kavita/server:latest
+      aliyun: kavita:latest
+
+  - id: homebox
+    source: ghcr.io/sysadminsmedia/homebox:latest
+    targets:
+      home: homebox/server:latest
+      aliyun: homebox:latest
+
+  - id: duplicati
+    source: docker.io/duplicati/duplicati:latest
+    targets:
+      home: common/duplicati:latest
+      aliyun: duplicati:latest
+
+  - id: uptime-kuma
+    source: docker.io/louislam/uptime-kuma:2
+    targets:
+      home: uptime-kuma/server:2
+      aliyun: uptime-kuma:2
+
+  - id: sftpgo
+    source: docker.io/drakkan/sftpgo:v2.7.5
+    targets:
+      home: common/sftpgo:v2.7.5
+      aliyun: sftpgo:v2.7.5
+
+  - id: syncthing
+    source: docker.io/syncthing/syncthing:latest
+    targets:
+      home: common/syncthing:latest
+      aliyun: syncthing:latest
+
+  - id: moviepilot
+    source: docker.io/jxxghp/moviepilot-v2:latest
+    targets:
+      home: media/moviepilot-v2:latest
+      aliyun: moviepilot-v2:latest
+
+  - id: clouddrive2
+    source: docker.io/cloudnas/clouddrive2:latest
+    targets:
+      home: media/clouddrive2:latest
+      aliyun: clouddrive2:latest
+
+  - id: v2raya
+    source: docker.io/mzz2017/v2raya:latest
+    targets:
+      home: network/v2raya:latest
+      aliyun: v2raya:latest
+
+  - id: cloudflared
+    source: docker.io/cloudflare/cloudflared:latest
+    targets:
+      home: network/cloudflared:latest
+      aliyun: cloudflared:latest
+
+  - id: alist
+    source: docker.io/xhofe/alist:latest
+    targets:
+      home: storage/alist:latest
+      aliyun: alist:latest
+
+  - id: home-assistant
+    source: docker.io/homeassistant/home-assistant:latest
+    targets:
+      home: home-assistant/server:latest
+      aliyun: home-assistant:latest
+
+  - id: adguard-home
+    source: docker.io/adguard/adguardhome:latest
+    targets:
+      home: network/adguard-home:latest
+      aliyun: adguard-home:latest
+
+  - id: navidrome
+    source: docker.io/deluan/navidrome:latest
+    targets:
+      home: media/navidrome:latest
+      aliyun: navidrome:latest
