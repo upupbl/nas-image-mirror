@@ -38,6 +38,13 @@ images:
       aliyun: postgres:18
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: busybox-1-37-0
+    source: docker.io/library/busybox:1.37.0
+    targets:
+      home: common/busybox:1.37.0
+      aliyun: busybox:1.37.0
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: qbittorrent
     source: lscr.io/linuxserver/qbittorrent:5.2.3
     targets:
