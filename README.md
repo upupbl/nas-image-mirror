@@ -8,6 +8,7 @@
 - 使用 `images.yml` 管理镜像来源、目标路径、版本和必须支持的平台。
 - 使用 `skopeo copy --all` 流式复制，不占满 GitHub Runner 的 Docker 磁盘。
 - 支持完整同步和仅同步发生变化的清单项。
+- 支持按镜像 ID 精确重试一个或多个失败项。
 - 登录凭据只保存在 GitHub Actions Secrets 中。
 - 固定版本与滚动 tag 可以同时存在；生产安装优先使用固定版本。
 
@@ -58,6 +59,8 @@ MIRROR_ENABLED=true
 3. 第一次选择 `dry_run=true` 检查计划。
 4. 确认无误后关闭 dry run，选择 `home`、`aliyun` 或两者。
 
+如果只需重试失败镜像，在 `image_ids` 中填写清单 ID；多个 ID 用逗号分隔，例如 `postgres-18,valkey-9`。该输入非空时会覆盖 `scope`。
+
 自建仓库最终使用方式：
 
 ```bash
@@ -72,6 +75,7 @@ docker pull registry.example.com/common/valkey:9
 python3 -m pip install -r requirements.txt
 python3 scripts/mirror.py validate
 python3 scripts/mirror.py mirror --scope all --destinations home --dry-run
+python3 scripts/mirror.py mirror --image-ids postgres-18 --destinations home --dry-run
 python3 -m unittest discover -v
 ```
 

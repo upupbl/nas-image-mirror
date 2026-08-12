@@ -20,6 +20,11 @@ on:
         required: true
         default: false
         type: boolean
+      image_ids:
+        description: Optional comma-separated image IDs; overrides scope
+        required: false
+        default: ""
+        type: string
   push:
     branches: [main]
     paths:
@@ -92,6 +97,7 @@ jobs:
       - name: Mirror images
         env:
           BEFORE_SHA: ${{ github.event.before }}
+          REQUESTED_IMAGE_IDS: ${{ inputs.image_ids }}
         run: |
           args=(
             mirror
@@ -100,6 +106,9 @@ jobs:
           )
           if [[ -n "${BEFORE_SHA}" ]]; then
             args+=(--base-ref "${BEFORE_SHA}")
+          fi
+          if [[ -n "${REQUESTED_IMAGE_IDS}" ]]; then
+            args+=(--image-ids "${REQUESTED_IMAGE_IDS}")
           fi
           if [[ "${{ steps.params.outputs.dry_run }}" == "true" ]]; then
             args+=(--dry-run)

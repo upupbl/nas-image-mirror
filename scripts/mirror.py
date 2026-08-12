@@ -149,6 +149,31 @@ def changed_images(
     return [item for item in current if previous_by_id.get(item["id"]) != item]
 
 
+def images_by_id(
+    images: list[dict[str, Any]], requested_ids: str
+) -> list[dict[str, Any]]:
+    image_ids = [item.strip() for item in requested_ids.split(",") if item.strip()]
+    if not image_ids:
+        return images
+
+    seen: set[str] = set()
+    duplicates: set[str] = set()
+    for image_id in image_ids:
+        if image_id in seen:
+            duplicates.add(image_id)
+        seen.add(image_id)
+    if duplicates:
+        raise MirrorError(
+            f"Duplicate requested image id(s): {', '.join(sorted(duplicates))}"
+        )
+
+    by_id = {image["id"]: image for image in images}
+    unknown = sorted(set(image_ids) - set(by_id))
+    if unknown:
+        raise MirrorError(f"Unknown requested image id(s): {', '.join(unknown)}")
+    return [by_id[image_id] for image_id in image_ids]
+
+
 def docker_transport(reference: str) -> str:
     return reference if reference.startswith("docker://") else f"docker://{reference}"
 
@@ -193,9 +218,21 @@ def inspect_platforms(source: str) -> set[str]:
     return {value}
 
 
+def platform_matches(required: str, available: str) -> bool:
+    if required == available:
+        return True
+    required_parts = required.split("/", 2)
+    available_parts = available.split("/", 2)
+    return len(required_parts) == 2 and required_parts == available_parts[:2]
+
+
 def check_required_platforms(source: str, required: list[str]) -> set[str]:
     available = inspect_platforms(source)
-    missing = set(required) - available
+    missing = {
+        platform
+        for platform in required
+        if not any(platform_matches(platform, candidate) for candidate in available)
+    }
     if missing:
         raise MirrorError(
             f"{source} is missing required platform(s): {', '.join(sorted(missing))}; "
@@ -276,7 +313,9 @@ def append_summary(rows: list[tuple[str, str, str, str]]) -> None:
 def mirror(args: argparse.Namespace) -> int:
     manifest_path = Path(args.manifest)
     images = load_images(manifest_path)
-    if args.scope == "changed":
+    if args.image_ids:
+        images = images_by_id(images, args.image_ids)
+    elif args.scope == "changed":
         images = changed_images(images, manifest_path, args.base_ref)
 
     requested_destinations = [item.strip() for item in args.destinations.split(",") if item.strip()]
@@ -348,6 +387,11 @@ def build_parser() -> argparse.ArgumentParser:
     mirror_parser.add_argument("--manifest", default="images.yml")
     mirror_parser.add_argument("--scope", choices=("all", "changed"), default="all")
     mirror_parser.add_argument("--base-ref")
+    mirror_parser.add_argument(
+        "--image-ids",
+        default="",
+        help="comma-separated image ids to mirror; overrides --scope",
+    )
     mirror_parser.add_argument("--destinations", default="home")
     mirror_parser.add_argument("--attempts", type=int, default=3)
     mirror_parser.add_argument("--retry-delay", type=int, default=10)
