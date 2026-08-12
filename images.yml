@@ -180,3 +180,22 @@ images:
     targets:
       home: media/navidrome:latest
       aliyun: navidrome:latest
+
+  - id: emby-server
+    source: docker.io/emby/embyserver:latest
+    targets:
+      home: emby/server:latest
+      aliyun: emby-server:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: emby-server-arm64v8-amilys
+    source: docker.io/amilys/embyserver_arm64v8:latest
+    targets:
+      home: emby/server-arm64v8-amilys:latest
+      aliyun: emby-server-arm64v8-amilys:latest
+
+  - id: emby-server-arm64v8
+    source: docker.io/emby/embyserver_arm64v8:latest
+    targets:
+      home: emby/server-arm64v8:latest
+      aliyun: emby-server-arm64v8:latest
