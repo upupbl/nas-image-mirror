@@ -22,6 +22,7 @@ images:
     targets:
       home: immich/postgres:14-vectorchord0.4.3-pgvectors0.2.0
       aliyun: immich-postgres:14-vectorchord0.4.3-pgvectors0.2.0
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: valkey-9
     source: docker.io/valkey/valkey:9
@@ -48,6 +49,7 @@ images:
     targets:
       home: paperless/server:latest
       aliyun: paperless-server:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: gotenberg
     source: docker.io/gotenberg/gotenberg:8.34
@@ -72,114 +74,133 @@ images:
     targets:
       home: vaultwarden/server:latest
       aliyun: vaultwarden:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: homepage
     source: ghcr.io/gethomepage/homepage:latest
     targets:
       home: homepage/server:latest
       aliyun: homepage:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: docker-socket-proxy
     source: ghcr.io/tecnativa/docker-socket-proxy:latest
     targets:
       home: common/docker-socket-proxy:latest
       aliyun: docker-socket-proxy:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: open-webui
     source: ghcr.io/open-webui/open-webui:main
     targets:
       home: open-webui/server:main
       aliyun: open-webui:main
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: audiobookshelf
     source: ghcr.io/advplyr/audiobookshelf:latest
     targets:
       home: audiobookshelf/server:latest
       aliyun: audiobookshelf:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: kavita
     source: lscr.io/linuxserver/kavita:latest
     targets:
       home: kavita/server:latest
       aliyun: kavita:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: homebox
     source: ghcr.io/sysadminsmedia/homebox:latest
     targets:
       home: homebox/server:latest
       aliyun: homebox:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: duplicati
     source: docker.io/duplicati/duplicati:latest
     targets:
       home: common/duplicati:latest
       aliyun: duplicati:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: uptime-kuma
     source: docker.io/louislam/uptime-kuma:2
     targets:
       home: uptime-kuma/server:2
       aliyun: uptime-kuma:2
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: sftpgo
     source: docker.io/drakkan/sftpgo:v2.7.5
     targets:
       home: common/sftpgo:v2.7.5
       aliyun: sftpgo:v2.7.5
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: syncthing
     source: docker.io/syncthing/syncthing:latest
     targets:
       home: common/syncthing:latest
       aliyun: syncthing:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: moviepilot
     source: docker.io/jxxghp/moviepilot-v2:latest
     targets:
       home: media/moviepilot-v2:latest
       aliyun: moviepilot-v2:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: clouddrive2
     source: docker.io/cloudnas/clouddrive2:latest
     targets:
       home: media/clouddrive2:latest
       aliyun: clouddrive2:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: v2raya
     source: docker.io/mzz2017/v2raya:latest
     targets:
       home: network/v2raya:latest
       aliyun: v2raya:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: cloudflared
     source: docker.io/cloudflare/cloudflared:latest
     targets:
       home: network/cloudflared:latest
       aliyun: cloudflared:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: alist
     source: docker.io/xhofe/alist:latest
     targets:
       home: storage/alist:latest
       aliyun: alist:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: home-assistant
     source: docker.io/homeassistant/home-assistant:latest
     targets:
       home: home-assistant/server:latest
       aliyun: home-assistant:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: adguard-home
     source: docker.io/adguard/adguardhome:latest
     targets:
       home: network/adguard-home:latest
       aliyun: adguard-home:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: navidrome
     source: docker.io/deluan/navidrome:latest
     targets:
       home: media/navidrome:latest
       aliyun: navidrome:latest
+    required_platforms: [linux/amd64, linux/arm64]
 
   - id: emby-server
     source: docker.io/emby/embyserver:latest
@@ -199,3 +220,108 @@ images:
     targets:
       home: emby/server-arm64v8:latest
       aliyun: emby-server-arm64v8:latest
+
+  - id: qbittorrent-5-1-0
+    source: docker.io/linuxserver/qbittorrent:5.1.0
+    targets:
+      home: common/qbittorrent:5.1.0
+      aliyun: qbittorrent:5.1.0
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: cookiecloud
+    source: docker.io/easychen/cookiecloud:latest
+    targets:
+      home: common/cookiecloud:latest
+      aliyun: cookiecloud:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: npc
+    source: docker.io/taygetus/npc:latest
+    targets:
+      home: network/npc:latest
+      aliyun: npc:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: ddns-go
+    source: docker.io/jeessy/ddns-go:latest
+    targets:
+      home: network/ddns-go:latest
+      aliyun: ddns-go:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: chinesesubfinder
+    source: docker.io/allanpk716/chinesesubfinder:latest
+    targets:
+      home: media/chinesesubfinder:latest
+      aliyun: chinesesubfinder:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: xiaoyakeeper
+    source: docker.io/ddsderek/xiaoyakeeper:latest
+    targets:
+      home: storage/xiaoyakeeper:latest
+      aliyun: xiaoyakeeper:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: iyuuplus
+    source: docker.io/iyuucn/iyuuplus:latest
+    targets:
+      home: media/iyuuplus:latest
+      aliyun: iyuuplus:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: sun-panel
+    source: docker.io/hslr/sun-panel:latest
+    targets:
+      home: sun-panel/server:latest
+      aliyun: sun-panel:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: linuxserver-emby
+    source: docker.io/linuxserver/emby:latest
+    targets:
+      home: emby/linuxserver:latest
+      aliyun: linuxserver-emby:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: ttyd
+    source: docker.io/tsl0922/ttyd:latest
+    targets:
+      home: common/ttyd:latest
+      aliyun: ttyd:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: calibre-web
+    source: docker.io/linuxserver/calibre-web:latest
+    targets:
+      home: calibre/web:latest
+      aliyun: calibre-web:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: calibre-mod-universal
+    source: docker.io/linuxserver/mods:universal-calibre
+    targets:
+      home: calibre/mods:universal-calibre
+      aliyun: calibre-mods:universal-calibre
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: immich-server-release
+    source: ghcr.io/immich-app/immich-server:release
+    targets:
+      home: immich/server:release
+      aliyun: immich-server:release
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: immich-machine-learning-release
+    source: ghcr.io/immich-app/immich-machine-learning:release
+    targets:
+      home: immich/machine-learning:release
+      aliyun: immich-machine-learning:release
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: stirling-pdf-latest
+    source: docker.io/stirlingtools/stirling-pdf:latest
+    targets:
+      home: stirling/stirling-pdf:latest
+      aliyun: stirling-pdf:latest
+    required_platforms: [linux/amd64, linux/arm64]
