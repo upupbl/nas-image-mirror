@@ -107,6 +107,22 @@ class DestinationTests(unittest.TestCase):
         destination = mirror.destination_from_env("home")
         self.assertEqual(destination.registry, "registry.example.com")
 
+    @mock.patch("scripts.mirror.subprocess.run")
+    def test_copy_passes_destination_credentials_explicitly(self, run):
+        destination = mirror.Destination(
+            "home", "registry.example.com", "", "mirror", "secret"
+        )
+        mirror.copy_image(
+            "alpine:3.20",
+            "registry.example.com/common/alpine:3.20",
+            destination,
+            attempts=1,
+            delay=0,
+        )
+        command = run.call_args.args[0]
+        credential_index = command.index("--dest-creds")
+        self.assertEqual(command[credential_index + 1], "mirror:secret")
+
 
 class PlatformTests(unittest.TestCase):
     @mock.patch("scripts.mirror.run_json")
