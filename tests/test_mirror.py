@@ -73,6 +73,18 @@ images:
         changed = mirror.changed_images(current, Path("images.yml"), "abc123")
         self.assertEqual([item["id"] for item in changed], ["alpine"])
 
+    def test_image_ids_select_only_requested_entries_in_requested_order(self):
+        images = [
+            {"id": "alpine", "source": "alpine:3.20"},
+            {"id": "postgres-18", "source": "postgres:18"},
+        ]
+        selected = mirror.images_by_id(images, "postgres-18, alpine")
+        self.assertEqual([item["id"] for item in selected], ["postgres-18", "alpine"])
+
+    def test_unknown_image_id_is_rejected(self):
+        with self.assertRaisesRegex(mirror.MirrorError, "Unknown requested image id.*missing"):
+            mirror.images_by_id([{"id": "alpine"}], "missing")
+
 
 class DestinationTests(unittest.TestCase):
     def test_nested_home_path(self):
@@ -109,6 +121,22 @@ class PlatformTests(unittest.TestCase):
             mirror.inspect_platforms("alpine:3.20"),
             {"linux/amd64", "linux/arm64"},
         )
+
+    @mock.patch("scripts.mirror.inspect_platforms")
+    def test_architecture_requirement_accepts_available_variant(self, inspect_platforms):
+        inspect_platforms.return_value = {"linux/amd64", "linux/arm64/v8"}
+        self.assertEqual(
+            mirror.check_required_platforms(
+                "postgres:18", ["linux/amd64", "linux/arm64"]
+            ),
+            {"linux/amd64", "linux/arm64/v8"},
+        )
+
+    @mock.patch("scripts.mirror.inspect_platforms")
+    def test_explicit_variant_requirement_stays_strict(self, inspect_platforms):
+        inspect_platforms.return_value = {"linux/arm64/v9"}
+        with self.assertRaisesRegex(mirror.MirrorError, "linux/arm64/v8"):
+            mirror.check_required_platforms("example:latest", ["linux/arm64/v8"])
 
 
 if __name__ == "__main__":
