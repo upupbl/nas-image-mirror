@@ -276,13 +276,17 @@ def login(destination: Destination) -> None:
     subprocess.run(command, input=destination.password, text=True, check=True)
 
 
-def copy_image(source: str, target: str, attempts: int, delay: int) -> None:
+def copy_image(
+    source: str, target: str, destination: Destination, attempts: int, delay: int
+) -> None:
     command = [
         "skopeo",
         "copy",
         "--all",
         "--retry-times",
         "3",
+        "--dest-creds",
+        f"{destination.username}:{destination.password}",
         docker_transport(source),
         docker_transport(target),
     ]
@@ -363,7 +367,9 @@ def mirror(args: argparse.Namespace) -> int:
             target = destination.image_ref(targets[name])
             print(f"COPY {source} -> {target}")
             try:
-                copy_image(source, target, args.attempts, args.retry_delay)
+                copy_image(
+                    source, target, destination, args.attempts, args.retry_delay
+                )
                 rows.append(("Success", name, source, target))
             except subprocess.CalledProcessError:
                 rows.append(("Copy failed", name, source, target))
