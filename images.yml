@@ -38,6 +38,13 @@ images:
       aliyun: postgres:18
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: busybox-1-37-0
+    source: docker.io/library/busybox:1.37.0
+    targets:
+      home: common/busybox:1.37.0
+      aliyun: busybox:1.37.0
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: qbittorrent
     source: lscr.io/linuxserver/qbittorrent:5.2.3
     targets:
@@ -159,6 +166,8 @@ images:
       home: media/clouddrive2:latest
       aliyun: clouddrive2:latest
     required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      aliyun: [linux/amd64, linux/arm64]
 
   - id: v2raya
     source: docker.io/mzz2017/v2raya:latest
@@ -185,7 +194,6 @@ images:
     source: docker.io/homeassistant/home-assistant:latest
     targets:
       home: home-assistant/server:latest
-      aliyun: home-assistant:latest
     required_platforms: [linux/amd64, linux/arm64]
 
   - id: adguard-home

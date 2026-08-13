@@ -66,6 +66,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends skopeo
+          sudo curl --fail --silent --show-error --location \
+            https://github.com/regclient/regclient/releases/download/v0.11.5/regctl-linux-amd64 \
+            --output /usr/local/bin/regctl
+          sudo chmod 0755 /usr/local/bin/regctl
           python3 -m pip install --disable-pip-version-check -r requirements.txt
 
       - name: Validate manifest
@@ -117,4 +121,8 @@ jobs:
 
       - name: Remove registry sessions
         if: always()
-        run: rm -f "${XDG_RUNTIME_DIR:-/tmp}/containers/auth.json" "${HOME}/.config/containers/auth.json"
+        run: |
+          rm -f "${XDG_RUNTIME_DIR:-/tmp}/containers/auth.json" \
+            "${HOME}/.config/containers/auth.json" \
+            "${HOME}/.docker/config.json" \
+            "${HOME}/.regctl/config.json"

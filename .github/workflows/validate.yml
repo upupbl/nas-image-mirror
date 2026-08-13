@@ -32,6 +32,9 @@ jobs:
       - name: Validate manifest
         run: python3 scripts/mirror.py validate
 
+      - name: Check generated home pull catalog
+        run: python3 scripts/generate_home_pulls.py --check
+
       - name: Run unit tests
         run: python3 -m unittest discover -v
 
