@@ -198,6 +198,8 @@ images:
     required_platforms: [linux/amd64, linux/arm64]
     copy_platforms:
       aliyun: [linux/amd64, linux/arm64]
+    copy_compression:
+      aliyun: gzip
 
   - id: adguard-home
     source: docker.io/adguard/adguardhome:latest

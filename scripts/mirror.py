@@ -79,6 +79,7 @@ def validate_manifest(data: dict[str, Any]) -> list[dict[str, Any]]:
         targets = raw.get("targets")
         platforms = raw.get("required_platforms", [])
         copy_platforms = raw.get("copy_platforms", {})
+        copy_compression = raw.get("copy_compression", {})
 
         if not isinstance(image_id, str) or not ID_RE.fullmatch(image_id):
             errors.append(f"{label}.id is invalid")
@@ -132,6 +133,21 @@ def validate_manifest(data: dict[str, Any]) -> list[dict[str, Any]]:
                         f"{label}.copy_platforms.{destination} contains duplicates"
                     )
 
+        if not isinstance(copy_compression, dict):
+            errors.append(f"{label}.copy_compression must be a destination mapping")
+            copy_compression = {}
+        else:
+            for destination, compression in copy_compression.items():
+                if destination not in copy_platforms:
+                    errors.append(
+                        f"{label}.copy_compression.{destination} requires "
+                        "copy_platforms"
+                    )
+                if compression != "gzip":
+                    errors.append(
+                        f"{label}.copy_compression.{destination} must be gzip"
+                    )
+
         normalized.append(
             {
                 "id": image_id,
@@ -139,6 +155,7 @@ def validate_manifest(data: dict[str, Any]) -> list[dict[str, Any]]:
                 "targets": targets,
                 "required_platforms": platforms,
                 "copy_platforms": copy_platforms,
+                "copy_compression": copy_compression,
             }
         )
 
@@ -352,6 +369,7 @@ def copy_selected_platforms(
     source: str,
     target: str,
     platforms: list[str],
+    compression: str | None,
     attempts: int,
     delay: int,
 ) -> None:
@@ -360,15 +378,29 @@ def copy_selected_platforms(
     ]
     try:
         for platform, temporary_target in zip(platforms, temporary_targets):
-            command = [
-                "regctl",
-                "image",
-                "copy",
-                "--platform",
-                platform,
-                source,
-                temporary_target,
-            ]
+            if compression:
+                source_ref = platform_digest_reference(source, platform)
+                command = [
+                    "regctl",
+                    "image",
+                    "mod",
+                    source_ref,
+                    "--layer-compress",
+                    compression,
+                    "--to-docker",
+                    "--create",
+                    temporary_target,
+                ]
+            else:
+                command = [
+                    "regctl",
+                    "image",
+                    "copy",
+                    "--platform",
+                    platform,
+                    source,
+                    temporary_target,
+                ]
             for attempt in range(1, attempts + 1):
                 try:
                     subprocess.run(command, check=True)
@@ -383,16 +415,53 @@ def copy_selected_platforms(
                     )
                     time.sleep(wait)
 
-        command = ["regctl", "index", "create", target]
-        for temporary_target in temporary_targets:
-            command.extend(["--ref", temporary_target])
-        subprocess.run(command, check=True)
-    finally:
-        for temporary_target in temporary_targets:
+        subprocess.run(["regctl", "index", "create", target], check=True)
+        for platform, temporary_target in zip(platforms, temporary_targets):
             subprocess.run(
-                ["regctl", "tag", "rm", temporary_target, "--ignore-missing"],
-                check=False,
+                [
+                    "regctl",
+                    "index",
+                    "add",
+                    target,
+                    "--ref",
+                    temporary_target,
+                    "--desc-platform",
+                    platform,
+                ],
+                check=True,
             )
+    except subprocess.CalledProcessError:
+        raise
+
+
+def platform_digest_reference(source: str, required: str) -> str:
+    raw = run_json(["skopeo", "inspect", "--raw", docker_transport(source)])
+    manifests = raw.get("manifests") if isinstance(raw, dict) else None
+    if not isinstance(manifests, list):
+        raise MirrorError(f"{source} is not a multi-platform image")
+    matches: list[tuple[str, str]] = []
+    for manifest in manifests:
+        if not isinstance(manifest, dict):
+            continue
+        platform = manifest.get("platform", {})
+        os_name = platform.get("os") if isinstance(platform, dict) else None
+        architecture = (
+            platform.get("architecture") if isinstance(platform, dict) else None
+        )
+        if not os_name or not architecture:
+            continue
+        available = f"{os_name}/{architecture}"
+        variant = platform.get("variant")
+        if variant:
+            available += f"/{variant}"
+        digest = manifest.get("digest")
+        if isinstance(digest, str) and platform_matches(required, available):
+            matches.append((available, digest))
+    if not matches:
+        raise MirrorError(f"{source} has no manifest matching {required}")
+    exact = next((digest for available, digest in matches if available == required), None)
+    digest = exact or matches[0][1]
+    return f"{source.split('@', 1)[0]}@{digest}"
 
 
 def append_summary(rows: list[tuple[str, str, str, str]]) -> None:
@@ -451,7 +520,10 @@ def mirror(args: argparse.Namespace) -> int:
         if args.dry_run:
             for name in applicable:
                 selected = image["copy_platforms"].get(name)
+                compression = image["copy_compression"].get(name)
                 suffix = f" platforms={','.join(selected)}" if selected else ""
+                if compression:
+                    suffix += f" compression={compression}"
                 print(f"DRY-RUN {source} -> {name}:{targets[name]}{suffix}")
             continue
 
@@ -471,13 +543,19 @@ def mirror(args: argparse.Namespace) -> int:
             print(f"COPY {source} -> {target}")
             try:
                 selected = image["copy_platforms"].get(name)
+                compression = image["copy_compression"].get(name)
                 if selected:
                     print(
                         f"Compatibility copy for {name}: "
                         f"{', '.join(selected)}"
                     )
                     copy_selected_platforms(
-                        source, target, selected, args.attempts, args.retry_delay
+                        source,
+                        target,
+                        selected,
+                        compression,
+                        args.attempts,
+                        args.retry_delay,
                     )
                 else:
                     copy_image(

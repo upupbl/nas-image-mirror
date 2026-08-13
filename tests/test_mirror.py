@@ -158,11 +158,12 @@ class DestinationTests(unittest.TestCase):
         self.assertEqual(command[credential_index + 1], "mirror:secret")
 
     @mock.patch("scripts.mirror.subprocess.run")
-    def test_selected_platform_copy_builds_clean_index_and_removes_temp_tags(self, run):
+    def test_selected_platform_copy_builds_clean_index(self, run):
         mirror.copy_selected_platforms(
             "homeassistant/home-assistant:latest",
             "registry.example.com/ns/home-assistant:latest",
             ["linux/amd64", "linux/arm64"],
+            compression=None,
             attempts=1,
             delay=0,
         )
@@ -186,14 +187,63 @@ class DestinationTests(unittest.TestCase):
                 "index",
                 "create",
                 "registry.example.com/ns/home-assistant:latest",
-                "--ref",
-                "registry.example.com/ns/home-assistant:latest-mirror-linux-amd64",
-                "--ref",
-                "registry.example.com/ns/home-assistant:latest-mirror-linux-arm64",
             ],
         )
-        self.assertEqual(commands[3][:3], ["regctl", "tag", "rm"])
-        self.assertEqual(commands[4][:3], ["regctl", "tag", "rm"])
+        self.assertEqual(commands[3][1:3], ["index", "add"])
+        self.assertEqual(commands[3][-2:], ["--desc-platform", "linux/amd64"])
+        self.assertEqual(commands[4][1:3], ["index", "add"])
+        self.assertEqual(commands[4][-2:], ["--desc-platform", "linux/arm64"])
+
+    @mock.patch("scripts.mirror.run_json")
+    def test_platform_digest_reference_prefers_exact_platform(self, run_json):
+        run_json.return_value = {
+            "manifests": [
+                {
+                    "digest": "sha256:amd",
+                    "platform": {"os": "linux", "architecture": "amd64"},
+                },
+                {
+                    "digest": "sha256:arm",
+                    "platform": {
+                        "os": "linux",
+                        "architecture": "arm64",
+                        "variant": "v8",
+                    },
+                },
+            ]
+        }
+        self.assertEqual(
+            mirror.platform_digest_reference("example/image:latest", "linux/arm64"),
+            "example/image:latest@sha256:arm",
+        )
+
+    @mock.patch("scripts.mirror.platform_digest_reference")
+    @mock.patch("scripts.mirror.subprocess.run")
+    def test_gzip_copy_recompresses_selected_manifest(self, run, platform_ref):
+        platform_ref.side_effect = ["source@sha256:amd", "source@sha256:arm"]
+        mirror.copy_selected_platforms(
+            "source:latest",
+            "registry.example.com/ns/image:latest",
+            ["linux/amd64", "linux/arm64"],
+            compression="gzip",
+            attempts=1,
+            delay=0,
+        )
+        first_command = run.call_args_list[0].args[0]
+        self.assertEqual(
+            first_command,
+            [
+                "regctl",
+                "image",
+                "mod",
+                "source@sha256:amd",
+                "--layer-compress",
+                "gzip",
+                "--to-docker",
+                "--create",
+                "registry.example.com/ns/image:latest-mirror-linux-amd64",
+            ],
+        )
 
 
 class PlatformTests(unittest.TestCase):
