@@ -46,7 +46,12 @@ images:
 | `ALIYUN_REGISTRY_USER` | 阿里云用户名 | 使用 aliyun 时 |
 | `ALIYUN_REGISTRY_PASSWORD` | 阿里云密码 | 使用 aliyun 时 |
 
-默认情况下，推送和定时事件不会真正同步。完成 Secrets 配置和首次手动验证后，再添加 Repository variable：
+每周定时任务会在北京时间周二 02:23（UTC 周一 18:23）自动同步 `home`
+目标。滚动 tag（例如 `latest`、`main`、`release`）会跟随上游更新；固定版本
+tag 仍保持在指定版本。
+
+普通代码推送默认不会真正同步。若还希望每次合并清单或同步脚本后立即执行，
+可添加 Repository variable：
 
 ```text
 MIRROR_ENABLED=true
