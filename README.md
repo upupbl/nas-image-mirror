@@ -69,11 +69,16 @@ docker pull registry.example.com/immich/server:v3.1.0
 docker pull registry.example.com/common/valkey:9
 ```
 
+当前 home 仓库的全部完整拉取地址（包括 `latest` 或固定版本 tag）可直接查看
+[`pulls/home/README.md`](pulls/home/README.md)，纯命令列表见
+[`pulls/home/docker-pull-commands.txt`](pulls/home/docker-pull-commands.txt)。
+
 ## 本地校验
 
 ```bash
 python3 -m pip install -r requirements.txt
 python3 scripts/mirror.py validate
+python3 scripts/generate_home_pulls.py --check
 python3 scripts/mirror.py mirror --scope all --destinations home --dry-run
 python3 scripts/mirror.py mirror --image-ids postgres-18 --destinations home --dry-run
 python3 -m unittest discover -v
