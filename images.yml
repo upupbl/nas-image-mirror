@@ -166,6 +166,8 @@ images:
       home: media/clouddrive2:latest
       aliyun: clouddrive2:latest
     required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      aliyun: [linux/amd64, linux/arm64]
 
   - id: v2raya
     source: docker.io/mzz2017/v2raya:latest
@@ -194,6 +196,8 @@ images:
       home: home-assistant/server:latest
       aliyun: home-assistant:latest
     required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      aliyun: [linux/amd64, linux/arm64]
 
   - id: adguard-home
     source: docker.io/adguard/adguardhome:latest

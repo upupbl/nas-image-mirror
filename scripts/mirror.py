@@ -78,6 +78,7 @@ def validate_manifest(data: dict[str, Any]) -> list[dict[str, Any]]:
         source = raw.get("source")
         targets = raw.get("targets")
         platforms = raw.get("required_platforms", [])
+        copy_platforms = raw.get("copy_platforms", {})
 
         if not isinstance(image_id, str) or not ID_RE.fullmatch(image_id):
             errors.append(f"{label}.id is invalid")
@@ -108,12 +109,36 @@ def validate_manifest(data: dict[str, Any]) -> list[dict[str, Any]]:
         elif len(platforms) != len(set(platforms)):
             errors.append(f"{label}.required_platforms contains duplicates")
 
+        if not isinstance(copy_platforms, dict):
+            errors.append(f"{label}.copy_platforms must be a destination mapping")
+            copy_platforms = {}
+        else:
+            for destination, selected in copy_platforms.items():
+                if destination not in targets:
+                    errors.append(
+                        f"{label}.copy_platforms.{destination} has no matching target"
+                    )
+                if not isinstance(selected, list) or not selected or any(
+                    not isinstance(platform, str)
+                    or not PLATFORM_RE.fullmatch(platform)
+                    for platform in selected
+                ):
+                    errors.append(
+                        f"{label}.copy_platforms.{destination} must contain "
+                        "os/architecture values"
+                    )
+                elif len(selected) != len(set(selected)):
+                    errors.append(
+                        f"{label}.copy_platforms.{destination} contains duplicates"
+                    )
+
         normalized.append(
             {
                 "id": image_id,
                 "source": source,
                 "targets": targets,
                 "required_platforms": platforms,
+                "copy_platforms": copy_platforms,
             }
         )
 
@@ -276,6 +301,19 @@ def login(destination: Destination) -> None:
     subprocess.run(command, input=destination.password, text=True, check=True)
 
 
+def regctl_login(destination: Destination) -> None:
+    command = [
+        "regctl",
+        "registry",
+        "login",
+        destination.registry,
+        "--user",
+        destination.username,
+        "--pass-stdin",
+    ]
+    subprocess.run(command, input=destination.password, text=True, check=True)
+
+
 def copy_image(
     source: str, target: str, destination: Destination, attempts: int, delay: int
 ) -> None:
@@ -300,6 +338,61 @@ def copy_image(
             wait = delay * attempt
             print(f"Copy attempt {attempt}/{attempts} failed; retrying in {wait}s.")
             time.sleep(wait)
+
+
+def temporary_platform_target(target: str, platform: str) -> str:
+    repository, separator, tag = target.rpartition(":")
+    if not separator or "/" not in repository:
+        raise MirrorError(f"Target must include a registry and explicit tag: {target}")
+    suffix = platform.replace("/", "-")
+    return f"{repository}:{tag}-mirror-{suffix}"
+
+
+def copy_selected_platforms(
+    source: str,
+    target: str,
+    platforms: list[str],
+    attempts: int,
+    delay: int,
+) -> None:
+    temporary_targets = [
+        temporary_platform_target(target, platform) for platform in platforms
+    ]
+    try:
+        for platform, temporary_target in zip(platforms, temporary_targets):
+            command = [
+                "regctl",
+                "image",
+                "copy",
+                "--platform",
+                platform,
+                source,
+                temporary_target,
+            ]
+            for attempt in range(1, attempts + 1):
+                try:
+                    subprocess.run(command, check=True)
+                    break
+                except subprocess.CalledProcessError:
+                    if attempt == attempts:
+                        raise
+                    wait = delay * attempt
+                    print(
+                        f"Platform copy attempt {attempt}/{attempts} failed; "
+                        f"retrying in {wait}s."
+                    )
+                    time.sleep(wait)
+
+        command = ["regctl", "index", "create", target]
+        for temporary_target in temporary_targets:
+            command.extend(["--ref", temporary_target])
+        subprocess.run(command, check=True)
+    finally:
+        for temporary_target in temporary_targets:
+            subprocess.run(
+                ["regctl", "tag", "rm", temporary_target, "--ignore-missing"],
+                check=False,
+            )
 
 
 def append_summary(rows: list[tuple[str, str, str, str]]) -> None:
@@ -336,6 +429,14 @@ def mirror(args: argparse.Namespace) -> int:
             destination = destination_from_env(name)
             login(destination)
             destinations[name] = destination
+        compatibility_destinations = {
+            name
+            for image in images
+            for name in image["copy_platforms"]
+            if name in requested_destinations
+        }
+        for name in sorted(compatibility_destinations):
+            regctl_login(destinations[name])
 
     rows: list[tuple[str, str, str, str]] = []
     failed = False
@@ -349,7 +450,9 @@ def mirror(args: argparse.Namespace) -> int:
 
         if args.dry_run:
             for name in applicable:
-                print(f"DRY-RUN {source} -> {name}:{targets[name]}")
+                selected = image["copy_platforms"].get(name)
+                suffix = f" platforms={','.join(selected)}" if selected else ""
+                print(f"DRY-RUN {source} -> {name}:{targets[name]}{suffix}")
             continue
 
         try:
@@ -367,9 +470,19 @@ def mirror(args: argparse.Namespace) -> int:
             target = destination.image_ref(targets[name])
             print(f"COPY {source} -> {target}")
             try:
-                copy_image(
-                    source, target, destination, args.attempts, args.retry_delay
-                )
+                selected = image["copy_platforms"].get(name)
+                if selected:
+                    print(
+                        f"Compatibility copy for {name}: "
+                        f"{', '.join(selected)}"
+                    )
+                    copy_selected_platforms(
+                        source, target, selected, args.attempts, args.retry_delay
+                    )
+                else:
+                    copy_image(
+                        source, target, destination, args.attempts, args.retry_delay
+                    )
                 rows.append(("Success", name, source, target))
             except subprocess.CalledProcessError:
                 rows.append(("Copy failed", name, source, target))

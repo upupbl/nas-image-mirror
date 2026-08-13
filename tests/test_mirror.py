@@ -23,6 +23,40 @@ class ManifestTests(unittest.TestCase):
         images = mirror.validate_manifest(data)
         self.assertEqual(images[0]["id"], "valkey-9")
 
+    def test_copy_platforms_are_destination_specific(self):
+        data = {
+            "version": 1,
+            "images": [
+                {
+                    "id": "home-assistant",
+                    "source": "homeassistant/home-assistant:latest",
+                    "targets": {
+                        "home": "home-assistant/server:latest",
+                        "aliyun": "home-assistant:latest",
+                    },
+                    "required_platforms": ["linux/amd64", "linux/arm64"],
+                    "copy_platforms": {
+                        "aliyun": ["linux/amd64", "linux/arm64"]
+                    },
+                }
+            ],
+        }
+        images = mirror.validate_manifest(data)
+        self.assertEqual(
+            images[0]["copy_platforms"],
+            {"aliyun": ["linux/amd64", "linux/arm64"]},
+        )
+
+    def test_copy_platforms_require_matching_target(self):
+        item = {
+            "id": "alpine",
+            "source": "alpine:3.20",
+            "targets": {"home": "common/alpine:3.20"},
+            "copy_platforms": {"aliyun": ["linux/amd64"]},
+        }
+        with self.assertRaisesRegex(mirror.MirrorError, "has no matching target"):
+            mirror.validate_manifest({"version": 1, "images": [item]})
+
     def test_duplicate_ids_are_rejected(self):
         item = {
             "id": "same",
@@ -122,6 +156,44 @@ class DestinationTests(unittest.TestCase):
         command = run.call_args.args[0]
         credential_index = command.index("--dest-creds")
         self.assertEqual(command[credential_index + 1], "mirror:secret")
+
+    @mock.patch("scripts.mirror.subprocess.run")
+    def test_selected_platform_copy_builds_clean_index_and_removes_temp_tags(self, run):
+        mirror.copy_selected_platforms(
+            "homeassistant/home-assistant:latest",
+            "registry.example.com/ns/home-assistant:latest",
+            ["linux/amd64", "linux/arm64"],
+            attempts=1,
+            delay=0,
+        )
+        commands = [call.args[0] for call in run.call_args_list]
+        self.assertEqual(
+            commands[0],
+            [
+                "regctl",
+                "image",
+                "copy",
+                "--platform",
+                "linux/amd64",
+                "homeassistant/home-assistant:latest",
+                "registry.example.com/ns/home-assistant:latest-mirror-linux-amd64",
+            ],
+        )
+        self.assertEqual(
+            commands[2],
+            [
+                "regctl",
+                "index",
+                "create",
+                "registry.example.com/ns/home-assistant:latest",
+                "--ref",
+                "registry.example.com/ns/home-assistant:latest-mirror-linux-amd64",
+                "--ref",
+                "registry.example.com/ns/home-assistant:latest-mirror-linux-arm64",
+            ],
+        )
+        self.assertEqual(commands[3][:3], ["regctl", "tag", "rm"])
+        self.assertEqual(commands[4][:3], ["regctl", "tag", "rm"])
 
 
 class PlatformTests(unittest.TestCase):
