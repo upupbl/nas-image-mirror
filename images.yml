@@ -333,3 +333,10 @@ images:
       home: stirling/stirling-pdf:latest
       aliyun: stirling-pdf:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: convertx
+    source: ghcr.io/c4illin/convertx:latest
+    targets:
+      home: convertx/server:latest
+      aliyun: convertx:latest
+    required_platforms: [linux/amd64, linux/arm64]
