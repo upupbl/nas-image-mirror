@@ -9,6 +9,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -380,17 +381,44 @@ def copy_selected_platforms(
         for platform, temporary_target in zip(platforms, temporary_targets):
             if compression:
                 source_ref = platform_digest_reference(source, platform)
-                command = [
-                    "regctl",
-                    "image",
-                    "mod",
-                    source_ref,
-                    "--layer-compress",
-                    compression,
-                    "--to-docker",
-                    "--create",
-                    temporary_target,
-                ]
+                with tempfile.TemporaryDirectory(prefix="mirror-platform-") as work:
+                    local_target = f"dir:{work}"
+                    prepare_command = [
+                        "skopeo",
+                        "copy",
+                        "--retry-times",
+                        "3",
+                        "--dest-compress",
+                        "--dest-compress-format",
+                        compression,
+                        "--format",
+                        "v2s2",
+                        docker_transport(source_ref),
+                        local_target,
+                    ]
+                    upload_command = [
+                        "skopeo",
+                        "copy",
+                        "--retry-times",
+                        "3",
+                        "--format",
+                        "v2s2",
+                        local_target,
+                        docker_transport(temporary_target),
+                    ]
+                    run_with_retries(
+                        prepare_command,
+                        attempts,
+                        delay,
+                        "Platform conversion",
+                    )
+                    run_with_retries(
+                        upload_command,
+                        attempts,
+                        delay,
+                        "Platform upload",
+                    )
+                continue
             else:
                 command = [
                     "regctl",
@@ -401,19 +429,7 @@ def copy_selected_platforms(
                     source,
                     temporary_target,
                 ]
-            for attempt in range(1, attempts + 1):
-                try:
-                    subprocess.run(command, check=True)
-                    break
-                except subprocess.CalledProcessError:
-                    if attempt == attempts:
-                        raise
-                    wait = delay * attempt
-                    print(
-                        f"Platform copy attempt {attempt}/{attempts} failed; "
-                        f"retrying in {wait}s."
-                    )
-                    time.sleep(wait)
+            run_with_retries(command, attempts, delay, "Platform copy")
 
         subprocess.run(["regctl", "index", "create", target], check=True)
         for platform, temporary_target in zip(platforms, temporary_targets):
@@ -432,6 +448,25 @@ def copy_selected_platforms(
             )
     except subprocess.CalledProcessError:
         raise
+
+
+def run_with_retries(
+    command: list[str], attempts: int, delay: int, operation: str
+) -> None:
+    for attempt in range(1, attempts + 1):
+        try:
+            subprocess.run(command, check=True, timeout=4500)
+            return
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            if attempt == attempts:
+                raise
+            wait = delay * attempt
+            print(
+                f"{operation} attempt {attempt}/{attempts} failed; "
+                f"retrying in {wait}s.",
+                flush=True,
+            )
+            time.sleep(wait)
 
 
 def platform_digest_reference(source: str, required: str) -> str:
@@ -562,7 +597,7 @@ def mirror(args: argparse.Namespace) -> int:
                         source, target, destination, args.attempts, args.retry_delay
                     )
                 rows.append(("Success", name, source, target))
-            except subprocess.CalledProcessError:
+            except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
                 rows.append(("Copy failed", name, source, target))
                 failed = True
 

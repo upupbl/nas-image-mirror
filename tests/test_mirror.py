@@ -218,9 +218,16 @@ class DestinationTests(unittest.TestCase):
         )
 
     @mock.patch("scripts.mirror.platform_digest_reference")
+    @mock.patch("scripts.mirror.tempfile.TemporaryDirectory")
     @mock.patch("scripts.mirror.subprocess.run")
-    def test_gzip_copy_recompresses_selected_manifest(self, run, platform_ref):
+    def test_gzip_copy_recompresses_selected_manifest(
+        self, run, temporary_directory, platform_ref
+    ):
         platform_ref.side_effect = ["source@sha256:amd", "source@sha256:arm"]
+        temporary_directory.return_value.__enter__.side_effect = [
+            "/tmp/amd",
+            "/tmp/arm",
+        ]
         mirror.copy_selected_platforms(
             "source:latest",
             "registry.example.com/ns/image:latest",
@@ -233,16 +240,34 @@ class DestinationTests(unittest.TestCase):
         self.assertEqual(
             first_command,
             [
-                "regctl",
-                "image",
-                "mod",
-                "source@sha256:amd",
-                "--layer-compress",
+                "skopeo",
+                "copy",
+                "--retry-times",
+                "3",
+                "--dest-compress",
+                "--dest-compress-format",
                 "gzip",
-                "--to-docker",
-                "--create",
-                "registry.example.com/ns/image:latest-mirror-linux-amd64",
+                "--format",
+                "v2s2",
+                "docker://source@sha256:amd",
+                "dir:/tmp/amd",
             ],
+        )
+        self.assertEqual(
+            run.call_args_list[1].args[0],
+            [
+                "skopeo",
+                "copy",
+                "--retry-times",
+                "3",
+                "--format",
+                "v2s2",
+                "dir:/tmp/amd",
+                "docker://registry.example.com/ns/image:latest-mirror-linux-amd64",
+            ],
+        )
+        self.assertTrue(
+            all(call.kwargs["timeout"] == 4500 for call in run.call_args_list[:4])
         )
 
 
