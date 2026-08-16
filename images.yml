@@ -340,3 +340,10 @@ images:
       home: convertx/server:latest
       aliyun: convertx:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: dpanel-lite
+    source: docker.io/dpanel/dpanel:lite
+    targets:
+      home: dpanel/dpanel:lite
+      aliyun: dpanel:lite
+    required_platforms: [linux/amd64, linux/arm64]
