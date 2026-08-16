@@ -340,3 +340,10 @@ images:
       home: convertx/server:latest
       aliyun: convertx:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: speedtest-tracker
+    source: lscr.io/linuxserver/speedtest-tracker:latest
+    targets:
+      home: network/speedtest-tracker:latest
+      aliyun: speedtest-tracker:latest
+    required_platforms: [linux/amd64, linux/arm64]
