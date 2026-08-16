@@ -340,3 +340,10 @@ images:
       home: convertx/server:latest
       aliyun: convertx:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: pairdrop
+    source: lscr.io/linuxserver/pairdrop:latest
+    targets:
+      home: pairdrop/server:latest
+      aliyun: pairdrop:latest
+    required_platforms: [linux/amd64, linux/arm64]
