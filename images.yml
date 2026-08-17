@@ -97,6 +97,13 @@ images:
       aliyun: docker-socket-proxy:latest
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: dozzle
+    source: docker.io/amir20/dozzle:latest
+    targets:
+      home: common/dozzle:latest
+      aliyun: dozzle:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: open-webui
     source: ghcr.io/open-webui/open-webui:main
     targets:
