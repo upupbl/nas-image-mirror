@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 48 个镜像。
+共 50 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -35,6 +35,7 @@
 | `v2raya` | `registry.runsh.de/network/v2raya:latest` | `docker pull registry.runsh.de/network/v2raya:latest` |
 | `cloudflared` | `registry.runsh.de/network/cloudflared:latest` | `docker pull registry.runsh.de/network/cloudflared:latest` |
 | `alist` | `registry.runsh.de/storage/alist:latest` | `docker pull registry.runsh.de/storage/alist:latest` |
+| `openlist` | `registry.runsh.de/storage/openlist:latest` | `docker pull registry.runsh.de/storage/openlist:latest` |
 | `home-assistant` | `registry.runsh.de/home-assistant/server:latest` | `docker pull registry.runsh.de/home-assistant/server:latest` |
 | `adguard-home` | `registry.runsh.de/network/adguard-home:latest` | `docker pull registry.runsh.de/network/adguard-home:latest` |
 | `navidrome` | `registry.runsh.de/media/navidrome:latest` | `docker pull registry.runsh.de/media/navidrome:latest` |
@@ -56,5 +57,6 @@
 | `immich-server-release` | `registry.runsh.de/immich/server:release` | `docker pull registry.runsh.de/immich/server:release` |
 | `immich-machine-learning-release` | `registry.runsh.de/immich/machine-learning:release` | `docker pull registry.runsh.de/immich/machine-learning:release` |
 | `stirling-pdf-latest` | `registry.runsh.de/stirling/stirling-pdf:latest` | `docker pull registry.runsh.de/stirling/stirling-pdf:latest` |
+| `convertx` | `registry.runsh.de/convertx/server:latest` | `docker pull registry.runsh.de/convertx/server:latest` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。
