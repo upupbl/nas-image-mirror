@@ -190,6 +190,13 @@ images:
       aliyun: alist:latest
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: openlist
+    source: docker.io/openlistteam/openlist:latest
+    targets:
+      home: storage/openlist:latest
+      aliyun: openlist:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: home-assistant
     source: docker.io/homeassistant/home-assistant:latest
     targets:
