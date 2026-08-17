@@ -190,6 +190,13 @@ images:
       aliyun: cloudflared:latest
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: iperf3
+    source: docker.io/networkstatic/iperf3:latest
+    targets:
+      home: network/iperf3:latest
+      aliyun: iperf3:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: alist
     source: docker.io/xhofe/alist:latest
     targets:

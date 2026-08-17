@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 50 个镜像。
+共 51 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -35,6 +35,7 @@
 | `clouddrive2` | `registry.runsh.de/media/clouddrive2:latest` | `docker pull registry.runsh.de/media/clouddrive2:latest` |
 | `v2raya` | `registry.runsh.de/network/v2raya:latest` | `docker pull registry.runsh.de/network/v2raya:latest` |
 | `cloudflared` | `registry.runsh.de/network/cloudflared:latest` | `docker pull registry.runsh.de/network/cloudflared:latest` |
+| `iperf3` | `registry.runsh.de/network/iperf3:latest` | `docker pull registry.runsh.de/network/iperf3:latest` |
 | `alist` | `registry.runsh.de/storage/alist:latest` | `docker pull registry.runsh.de/storage/alist:latest` |
 | `home-assistant` | `registry.runsh.de/home-assistant/server:latest` | `docker pull registry.runsh.de/home-assistant/server:latest` |
 | `adguard-home` | `registry.runsh.de/network/adguard-home:latest` | `docker pull registry.runsh.de/network/adguard-home:latest` |
