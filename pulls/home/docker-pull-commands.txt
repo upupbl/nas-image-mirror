@@ -27,6 +27,7 @@ docker pull registry.runsh.de/media/moviepilot-v2:latest
 docker pull registry.runsh.de/media/clouddrive2:latest
 docker pull registry.runsh.de/network/v2raya:latest
 docker pull registry.runsh.de/network/cloudflared:latest
+docker pull registry.runsh.de/network/iperf3:latest
 docker pull registry.runsh.de/storage/alist:latest
 docker pull registry.runsh.de/home-assistant/server:latest
 docker pull registry.runsh.de/network/adguard-home:latest
