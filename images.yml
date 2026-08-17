@@ -97,6 +97,13 @@ images:
       aliyun: docker-socket-proxy:latest
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: it-tools
+    source: docker.io/corentinth/it-tools:latest
+    targets:
+      home: common/it-tools:latest
+      aliyun: it-tools:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: open-webui
     source: ghcr.io/open-webui/open-webui:main
     targets:
