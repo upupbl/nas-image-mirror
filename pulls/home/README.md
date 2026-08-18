@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 52 个镜像。
+共 53 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -27,6 +27,7 @@
 | `audiobookshelf` | `registry.runsh.de/audiobookshelf/server:latest` | `docker pull registry.runsh.de/audiobookshelf/server:latest` |
 | `kavita` | `registry.runsh.de/kavita/server:latest` | `docker pull registry.runsh.de/kavita/server:latest` |
 | `homebox` | `registry.runsh.de/homebox/server:latest` | `docker pull registry.runsh.de/homebox/server:latest` |
+| `nocodb` | `registry.runsh.de/nocodb/server:latest` | `docker pull registry.runsh.de/nocodb/server:latest` |
 | `duplicati` | `registry.runsh.de/common/duplicati:latest` | `docker pull registry.runsh.de/common/duplicati:latest` |
 | `uptime-kuma` | `registry.runsh.de/uptime-kuma/server:2` | `docker pull registry.runsh.de/uptime-kuma/server:2` |
 | `scrutiny` | `registry.runsh.de/monitoring/scrutiny:v0.9.3-omnibus` | `docker pull registry.runsh.de/monitoring/scrutiny:v0.9.3-omnibus` |

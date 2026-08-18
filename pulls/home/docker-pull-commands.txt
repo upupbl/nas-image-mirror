@@ -19,6 +19,7 @@ docker pull registry.runsh.de/open-webui/server:main
 docker pull registry.runsh.de/audiobookshelf/server:latest
 docker pull registry.runsh.de/kavita/server:latest
 docker pull registry.runsh.de/homebox/server:latest
+docker pull registry.runsh.de/nocodb/server:latest
 docker pull registry.runsh.de/common/duplicati:latest
 docker pull registry.runsh.de/uptime-kuma/server:2
 docker pull registry.runsh.de/monitoring/scrutiny:v0.9.3-omnibus

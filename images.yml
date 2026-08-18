@@ -132,6 +132,13 @@ images:
       aliyun: homebox:latest
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: nocodb
+    source: docker.io/nocodb/nocodb:latest
+    targets:
+      home: nocodb/server:latest
+      aliyun: nocodb:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: duplicati
     source: docker.io/duplicati/duplicati:latest
     targets:
