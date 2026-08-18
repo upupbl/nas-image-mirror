@@ -21,6 +21,7 @@ docker pull registry.runsh.de/kavita/server:latest
 docker pull registry.runsh.de/homebox/server:latest
 docker pull registry.runsh.de/common/duplicati:latest
 docker pull registry.runsh.de/uptime-kuma/server:2
+docker pull registry.runsh.de/monitoring/scrutiny:v0.9.3-omnibus
 docker pull registry.runsh.de/common/sftpgo:v2.7.5
 docker pull registry.runsh.de/common/syncthing:latest
 docker pull registry.runsh.de/media/moviepilot-v2:latest

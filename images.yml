@@ -146,6 +146,13 @@ images:
       aliyun: uptime-kuma:2
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: scrutiny
+    source: ghcr.io/analogj/scrutiny:v0.9.3-omnibus
+    targets:
+      home: monitoring/scrutiny:v0.9.3-omnibus
+      aliyun: scrutiny:v0.9.3-omnibus
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: sftpgo
     source: docker.io/drakkan/sftpgo:v2.7.5
     targets:
