@@ -354,3 +354,15 @@ images:
       home: convertx/server:latest
       aliyun: convertx:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: changedetection
+    source: ghcr.io/dgtlmoon/changedetection.io:latest
+    targets:
+      home: changedetection/server:latest
+      aliyun: changedetection:latest
+
+  - id: changedetection-browser
+    source: docker.io/dgtlmoon/sockpuppetbrowser:latest
+    targets:
+      home: changedetection/sockpuppetbrowser:latest
+      aliyun: changedetection-sockpuppetbrowser:latest

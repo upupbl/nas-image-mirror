@@ -51,3 +51,5 @@ docker pull registry.runsh.de/immich/server:release
 docker pull registry.runsh.de/immich/machine-learning:release
 docker pull registry.runsh.de/stirling/stirling-pdf:latest
 docker pull registry.runsh.de/convertx/server:latest
+docker pull registry.runsh.de/changedetection/server:latest
+docker pull registry.runsh.de/changedetection/sockpuppetbrowser:latest
