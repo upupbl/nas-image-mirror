@@ -368,3 +368,33 @@ images:
       home: convertx/server:latest
       aliyun: convertx:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: changedetection
+    source: ghcr.io/dgtlmoon/changedetection.io:latest
+    targets:
+      home: changedetection/server:latest
+      aliyun: changedetection:latest
+
+  - id: changedetection-browser
+    source: docker.io/dgtlmoon/sockpuppetbrowser:latest
+    targets:
+      home: changedetection/sockpuppetbrowser:latest
+      aliyun: changedetection-sockpuppetbrowser:latest
+
+  - id: bookstack
+    source: lscr.io/linuxserver/bookstack:latest
+    targets:
+      home: bookstack/server:latest
+      aliyun: bookstack:latest
+
+  - id: bookstack-mariadb
+    source: lscr.io/linuxserver/mariadb:latest
+    targets:
+      home: bookstack/mariadb:latest
+      aliyun: bookstack-mariadb:latest
+
+  - id: actual-server
+    source: docker.io/actualbudget/actual-server:latest
+    targets:
+      home: actualbudget/server:latest
+      aliyun: actualbudget-server:latest
