@@ -132,6 +132,13 @@ images:
       aliyun: homebox:latest
     required_platforms: [linux/amd64, linux/arm64]
 
+  - id: nocodb
+    source: docker.io/nocodb/nocodb:latest
+    targets:
+      home: nocodb/server:latest
+      aliyun: nocodb:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
   - id: duplicati
     source: docker.io/duplicati/duplicati:latest
     targets:
@@ -144,6 +151,13 @@ images:
     targets:
       home: uptime-kuma/server:2
       aliyun: uptime-kuma:2
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: scrutiny
+    source: ghcr.io/analogj/scrutiny:v0.9.3-omnibus
+    targets:
+      home: monitoring/scrutiny:v0.9.3-omnibus
+      aliyun: scrutiny:v0.9.3-omnibus
     required_platforms: [linux/amd64, linux/arm64]
 
   - id: sftpgo
