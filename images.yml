@@ -398,3 +398,21 @@ images:
     targets:
       home: actualbudget/server:latest
       aliyun: actualbudget-server:latest
+
+  - id: pingvin-share-x
+    source: docker.io/smp46/pingvin-share-x:latest
+    targets:
+      home: pingvin-share-x/server:latest
+      aliyun: pingvin-share-x:latest
+
+  - id: wallos
+    source: docker.io/bellamy/wallos:latest
+    targets:
+      home: wallos/server:latest
+      aliyun: wallos:latest
+
+  - id: mealie-3-23-1
+    source: ghcr.io/mealie-recipes/mealie:v3.23.1
+    targets:
+      home: mealie/server:v3.23.1
+      aliyun: mealie:v3.23.1
