@@ -58,3 +58,5 @@ docker pull registry.runsh.de/changedetection/sockpuppetbrowser:latest
 docker pull registry.runsh.de/bookstack/server:latest
 docker pull registry.runsh.de/bookstack/mariadb:latest
 docker pull registry.runsh.de/actualbudget/server:latest
+docker pull registry.runsh.de/pingvin-share-x/server:latest
+docker pull registry.runsh.de/wallos/server:latest
