@@ -378,3 +378,9 @@ images:
     targets:
       home: bookstack/mariadb:latest
       aliyun: bookstack-mariadb:latest
+
+  - id: actual-server
+    source: docker.io/actualbudget/actual-server:latest
+    targets:
+      home: actualbudget/server:latest
+      aliyun: actualbudget-server:latest

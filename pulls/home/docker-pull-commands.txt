@@ -55,3 +55,4 @@ docker pull registry.runsh.de/changedetection/server:latest
 docker pull registry.runsh.de/changedetection/sockpuppetbrowser:latest
 docker pull registry.runsh.de/bookstack/server:latest
 docker pull registry.runsh.de/bookstack/mariadb:latest
+docker pull registry.runsh.de/actualbudget/server:latest
