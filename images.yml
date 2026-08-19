@@ -410,3 +410,9 @@ images:
     targets:
       home: wallos/server:latest
       aliyun: wallos:latest
+
+  - id: mealie-3-23-1
+    source: ghcr.io/mealie-recipes/mealie:v3.23.1
+    targets:
+      home: mealie/server:v3.23.1
+      aliyun: mealie:v3.23.1

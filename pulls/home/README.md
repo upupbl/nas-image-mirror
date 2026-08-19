@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 60 个镜像。
+共 61 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -68,5 +68,6 @@
 | `actual-server` | `registry.runsh.de/actualbudget/server:latest` | `docker pull registry.runsh.de/actualbudget/server:latest` |
 | `pingvin-share-x` | `registry.runsh.de/pingvin-share-x/server:latest` | `docker pull registry.runsh.de/pingvin-share-x/server:latest` |
 | `wallos` | `registry.runsh.de/wallos/server:latest` | `docker pull registry.runsh.de/wallos/server:latest` |
+| `mealie-3-23-1` | `registry.runsh.de/mealie/server:v3.23.1` | `docker pull registry.runsh.de/mealie/server:v3.23.1` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。
