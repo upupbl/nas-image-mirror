@@ -366,3 +366,15 @@ images:
     targets:
       home: changedetection/sockpuppetbrowser:latest
       aliyun: changedetection-sockpuppetbrowser:latest
+
+  - id: bookstack
+    source: lscr.io/linuxserver/bookstack:latest
+    targets:
+      home: bookstack/server:latest
+      aliyun: bookstack:latest
+
+  - id: bookstack-mariadb
+    source: lscr.io/linuxserver/mariadb:latest
+    targets:
+      home: bookstack/mariadb:latest
+      aliyun: bookstack-mariadb:latest
