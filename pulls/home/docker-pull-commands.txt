@@ -58,3 +58,6 @@ docker pull registry.runsh.de/changedetection/sockpuppetbrowser:latest
 docker pull registry.runsh.de/bookstack/server:latest
 docker pull registry.runsh.de/bookstack/mariadb:latest
 docker pull registry.runsh.de/actualbudget/server:latest
+docker pull registry.runsh.de/linkwarden/server:latest
+docker pull registry.runsh.de/common/postgres:16-alpine
+docker pull registry.runsh.de/linkwarden/meilisearch:v1.12.8
