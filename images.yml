@@ -398,3 +398,24 @@ images:
     targets:
       home: actualbudget/server:latest
       aliyun: actualbudget-server:latest
+
+  - id: linkwarden
+    source: ghcr.io/linkwarden/linkwarden:latest
+    targets:
+      home: linkwarden/server:latest
+      aliyun: linkwarden:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: postgres-16-alpine
+    source: docker.io/library/postgres:16-alpine
+    targets:
+      home: common/postgres:16-alpine
+      aliyun: postgres:16-alpine
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: linkwarden-meilisearch
+    source: docker.io/getmeili/meilisearch:v1.12.8
+    targets:
+      home: linkwarden/meilisearch:v1.12.8
+      aliyun: linkwarden-meilisearch:v1.12.8
+    required_platforms: [linux/amd64, linux/arm64]
