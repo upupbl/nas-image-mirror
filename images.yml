@@ -418,3 +418,23 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: trilium-0-104-1
+    source: docker.io/triliumnext/trilium:v0.104.1
+    targets:
+      home: trilium/trilium:v0.104.1
+      aliyun: trilium:v0.104.1
+    required_platforms: [linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v8]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v8]
+      aliyun: [linux/amd64, linux/arm64, linux/arm/v7, linux/arm/v8]
+
+  - id: drawio
+    source: docker.io/jgraph/drawio:latest
+    targets:
+      home: drawio/drawio:latest
+      aliyun: drawio:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
