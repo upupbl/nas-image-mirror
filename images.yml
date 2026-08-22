@@ -398,3 +398,23 @@ images:
     targets:
       home: actualbudget/server:latest
       aliyun: actualbudget-server:latest
+
+  - id: freshrss
+    source: docker.io/freshrss/freshrss:latest
+    targets:
+      home: freshrss/freshrss:latest
+      aliyun: freshrss:latest
+    required_platforms: [linux/amd64, linux/arm64, linux/arm/v7]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64, linux/arm/v7]
+      aliyun: [linux/amd64, linux/arm64, linux/arm/v7]
+
+  - id: docmost
+    source: docker.io/docmost/docmost:latest
+    targets:
+      home: docmost/docmost:latest
+      aliyun: docmost:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
