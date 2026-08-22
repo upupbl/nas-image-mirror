@@ -448,3 +448,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64, linux/arm/v7]
       aliyun: [linux/amd64, linux/arm64, linux/arm/v7]
+
+  - id: vikunja
+    source: docker.io/vikunja/vikunja:latest
+    targets:
+      home: vikunja/vikunja:latest
+      aliyun: vikunja:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
