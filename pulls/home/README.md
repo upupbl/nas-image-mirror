@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 62 个镜像。
+共 63 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -70,5 +70,6 @@
 | `docmost` | `registry.runsh.de/docmost/docmost:latest` | `docker pull registry.runsh.de/docmost/docmost:latest` |
 | `trilium-0-104-1` | `registry.runsh.de/trilium/trilium:v0.104.1` | `docker pull registry.runsh.de/trilium/trilium:v0.104.1` |
 | `drawio` | `registry.runsh.de/drawio/drawio:latest` | `docker pull registry.runsh.de/drawio/drawio:latest` |
+| `dockge-1-5-0` | `registry.runsh.de/dockge/dockge:1.5.0` | `docker pull registry.runsh.de/dockge/dockge:1.5.0` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。
