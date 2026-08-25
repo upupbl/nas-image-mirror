@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 64 个镜像。
+共 65 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -72,5 +72,6 @@
 | `drawio` | `registry.runsh.de/drawio/drawio:latest` | `docker pull registry.runsh.de/drawio/drawio:latest` |
 | `dockge-1-5-0` | `registry.runsh.de/dockge/dockge:1.5.0` | `docker pull registry.runsh.de/dockge/dockge:1.5.0` |
 | `vikunja` | `registry.runsh.de/vikunja/vikunja:latest` | `docker pull registry.runsh.de/vikunja/vikunja:latest` |
+| `omni-tools` | `registry.runsh.de/omni-tools/omni-tools:latest` | `docker pull registry.runsh.de/omni-tools/omni-tools:latest` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。
