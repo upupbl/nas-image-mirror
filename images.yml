@@ -468,3 +468,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: rustdesk-server
+    source: docker.io/rustdesk/rustdesk-server:latest
+    targets:
+      home: rustdesk/server:latest
+      aliyun: rustdesk-server:latest
+    required_platforms: [linux/amd64, linux/arm64, linux/arm/v7]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64, linux/arm/v7]
+      aliyun: [linux/amd64, linux/arm64, linux/arm/v7]
