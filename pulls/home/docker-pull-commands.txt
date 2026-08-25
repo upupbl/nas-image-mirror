@@ -64,3 +64,4 @@ docker pull registry.runsh.de/trilium/trilium:v0.104.1
 docker pull registry.runsh.de/drawio/drawio:latest
 docker pull registry.runsh.de/dockge/dockge:1.5.0
 docker pull registry.runsh.de/vikunja/vikunja:latest
+docker pull registry.runsh.de/omni-tools/omni-tools:latest
