@@ -508,3 +508,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: umami
+    source: ghcr.io/umami-software/umami:latest
+    targets:
+      home: umami/server:latest
+      aliyun: umami:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
