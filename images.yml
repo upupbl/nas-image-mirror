@@ -478,3 +478,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64, linux/arm/v7]
       aliyun: [linux/amd64, linux/arm64, linux/arm/v7]
+
+  - id: komga
+    source: docker.io/gotson/komga:latest
+    targets:
+      home: komga/server:latest
+      aliyun: komga:latest
+    required_platforms: [linux/amd64, linux/arm64, linux/arm/v7]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64, linux/arm/v7]
+      aliyun: [linux/amd64, linux/arm64, linux/arm/v7]
