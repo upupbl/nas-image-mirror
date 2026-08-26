@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 72 个镜像。
+共 73 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -80,5 +80,6 @@
 | `umami` | `registry.runsh.de/umami/server:latest` | `docker pull registry.runsh.de/umami/server:latest` |
 | `postgres-18-1` | `registry.runsh.de/common/postgres:18.1` | `docker pull registry.runsh.de/common/postgres:18.1` |
 | `jellystat` | `registry.runsh.de/jellystat/server:latest` | `docker pull registry.runsh.de/jellystat/server:latest` |
+| `frigate` | `registry.runsh.de/frigate/server:stable` | `docker pull registry.runsh.de/frigate/server:stable` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。

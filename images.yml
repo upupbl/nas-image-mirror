@@ -538,3 +538,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: frigate
+    source: ghcr.io/blakeblackshear/frigate:stable
+    targets:
+      home: frigate/server:stable
+      aliyun: frigate:stable
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
