@@ -488,3 +488,23 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64, linux/arm/v7]
       aliyun: [linux/amd64, linux/arm64, linux/arm/v7]
+
+  - id: postgres-16-alpine
+    source: docker.io/library/postgres:16-alpine
+    targets:
+      home: common/postgres:16-alpine
+      aliyun: postgres:16-alpine
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
+
+  - id: planka-2-2-1
+    source: ghcr.io/plankanban/planka:2.2.1
+    targets:
+      home: planka/server:2.2.1
+      aliyun: planka:2.2.1
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
