@@ -518,3 +518,23 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: postgres-18-1
+    source: docker.io/library/postgres:18.1
+    targets:
+      home: common/postgres:18.1
+      aliyun: postgres:18.1
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
+
+  - id: jellystat
+    source: docker.io/cyfershepard/jellystat:latest
+    targets:
+      home: jellystat/server:latest
+      aliyun: jellystat:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]

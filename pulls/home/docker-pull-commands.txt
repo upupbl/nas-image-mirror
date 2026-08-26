@@ -70,3 +70,5 @@ docker pull registry.runsh.de/komga/server:latest
 docker pull registry.runsh.de/common/postgres:16-alpine
 docker pull registry.runsh.de/planka/server:2.2.1
 docker pull registry.runsh.de/umami/server:latest
+docker pull registry.runsh.de/common/postgres:18.1
+docker pull registry.runsh.de/jellystat/server:latest
