@@ -548,3 +548,10 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: kopia
+    source: docker.io/kopia/kopia:latest
+    targets:
+      home: kopia/kopia:latest
+      aliyun: kopia:latest
+    required_platforms: [linux/amd64, linux/arm64]
