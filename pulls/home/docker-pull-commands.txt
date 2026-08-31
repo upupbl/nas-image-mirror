@@ -76,3 +76,4 @@ docker pull registry.runsh.de/frigate/server:stable
 docker pull registry.runsh.de/kopia/kopia:latest
 docker pull registry.runsh.de/grocy/server:latest
 docker pull registry.runsh.de/pingvin-share-x/server:latest
+docker pull registry.runsh.de/easyappointments/server:latest
