@@ -565,3 +565,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: pingvin-share-x
+    source: docker.io/smp46/pingvin-share-x:latest
+    targets:
+      home: pingvin-share-x/server:latest
+      aliyun: pingvin-share-x:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
