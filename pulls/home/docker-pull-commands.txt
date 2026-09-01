@@ -106,3 +106,5 @@ docker pull registry.runsh.de/netalertx/server:latest
 docker pull registry.runsh.de/sublarr/server:latest
 docker pull registry.runsh.de/memos/server:stable
 docker pull registry.runsh.de/jellyfin/server:latest
+docker pull registry.runsh.de/koillection/server:latest
+docker pull registry.runsh.de/common/postgres:16

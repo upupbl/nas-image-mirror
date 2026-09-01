@@ -771,3 +771,20 @@ images:
       home: jellyfin/server:latest
       aliyun: jellyfin:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: koillection
+    source: docker.io/koillection/koillection:latest
+    targets:
+      home: koillection/server:latest
+      aliyun: koillection:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
+
+  - id: postgres-16
+    source: docker.io/library/postgres:16
+    targets:
+      home: common/postgres:16
+      aliyun: postgres:16
+    required_platforms: [linux/amd64, linux/arm64]
