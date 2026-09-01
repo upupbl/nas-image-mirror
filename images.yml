@@ -1,5 +1,7 @@
 version: 1
 
+# Manual mirror sync trigger: 2026-09-01
+
 # `target` values are relative to the destination registry and namespace.
 # A single source tag keeps its upstream multi-platform manifest intact.
 images:
