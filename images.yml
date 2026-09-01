@@ -585,3 +585,13 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: docuseal
+    source: docker.io/docuseal/docuseal:latest
+    targets:
+      home: docuseal/server:latest
+      aliyun: docuseal:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
