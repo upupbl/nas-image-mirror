@@ -788,3 +788,10 @@ images:
       home: common/postgres:16
       aliyun: postgres:16
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: joplin-server
+    source: docker.io/joplin/server:latest
+    targets:
+      home: joplin/server:latest
+      aliyun: joplin-server:latest
+    required_platforms: [linux/amd64, linux/arm64]
