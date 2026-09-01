@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 78 个镜像。
+共 106 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -86,5 +86,34 @@
 | `pingvin-share-x` | `registry.runsh.de/pingvin-share-x/server:latest` | `docker pull registry.runsh.de/pingvin-share-x/server:latest` |
 | `easyappointments` | `registry.runsh.de/easyappointments/server:latest` | `docker pull registry.runsh.de/easyappointments/server:latest` |
 | `docuseal` | `registry.runsh.de/docuseal/server:latest` | `docker pull registry.runsh.de/docuseal/server:latest` |
+
+| `wallos` | `registry.runsh.de/wallos/server:latest` | `docker pull registry.runsh.de/wallos/server:latest` |
+| `mealie` | `registry.runsh.de/mealie/server:latest` | `docker pull registry.runsh.de/mealie/server:latest` |
+| `karakeep` | `registry.runsh.de/karakeep/server:release` | `docker pull registry.runsh.de/karakeep/server:release` |
+| `karakeep-chrome` | `registry.runsh.de/karakeep/chrome:release` | `docker pull registry.runsh.de/karakeep/chrome:release` |
+| `karakeep-meilisearch-1-41-0` | `registry.runsh.de/karakeep/meilisearch:v1.41.0` | `docker pull registry.runsh.de/karakeep/meilisearch:v1.41.0` |
+| `dozzle` | `registry.runsh.de/dozzle/server:latest` | `docker pull registry.runsh.de/dozzle/server:latest` |
+| `dpanel` | `registry.runsh.de/dpanel/server:latest` | `docker pull registry.runsh.de/dpanel/server:latest` |
+| `pairdrop` | `registry.runsh.de/pairdrop/server:latest` | `docker pull registry.runsh.de/pairdrop/server:latest` |
+| `gitea` | `registry.runsh.de/gitea/server:latest` | `docker pull registry.runsh.de/gitea/server:latest` |
+| `snipe-it` | `registry.runsh.de/snipe-it/server:latest` | `docker pull registry.runsh.de/snipe-it/server:latest` |
+| `mariadb-11-4-7` | `registry.runsh.de/common/mariadb:11.4.7` | `docker pull registry.runsh.de/common/mariadb:11.4.7` |
+| `mysql-8-0` | `registry.runsh.de/common/mysql:8.0` | `docker pull registry.runsh.de/common/mysql:8.0` |
+| `speedtest-tracker` | `registry.runsh.de/speedtest-tracker/server:latest` | `docker pull registry.runsh.de/speedtest-tracker/server:latest` |
+| `beszel` | `registry.runsh.de/beszel/hub:latest` | `docker pull registry.runsh.de/beszel/hub:latest` |
+| `beszel-agent` | `registry.runsh.de/beszel/agent:latest` | `docker pull registry.runsh.de/beszel/agent:latest` |
+| `n8n` | `registry.runsh.de/n8n/server:latest` | `docker pull registry.runsh.de/n8n/server:latest` |
+| `guacamole-1-6-0` | `registry.runsh.de/guacamole/web:1.6.0` | `docker pull registry.runsh.de/guacamole/web:1.6.0` |
+| `guacd-1-6-0` | `registry.runsh.de/guacamole/guacd:1.6.0` | `docker pull registry.runsh.de/guacamole/guacd:1.6.0` |
+| `lubelogger` | `registry.runsh.de/lubelogger/server:latest` | `docker pull registry.runsh.de/lubelogger/server:latest` |
+| `olivetin` | `registry.runsh.de/olivetin/server:latest` | `docker pull registry.runsh.de/olivetin/server:latest` |
+| `dawarich` | `registry.runsh.de/dawarich/server:latest` | `docker pull registry.runsh.de/dawarich/server:latest` |
+| `redis-7-4-alpine` | `registry.runsh.de/common/redis:7.4-alpine` | `docker pull registry.runsh.de/common/redis:7.4-alpine` |
+| `dawarich-postgis-17-3-5` | `registry.runsh.de/dawarich/postgis:17-3.5-alpine` | `docker pull registry.runsh.de/dawarich/postgis:17-3.5-alpine` |
+| `dawarich-postgis-arm64-17-3-5` | `registry.runsh.de/dawarich/postgis-arm64:17-3.5-alpine` | `docker pull registry.runsh.de/dawarich/postgis-arm64:17-3.5-alpine` |
+| `netalertx` | `registry.runsh.de/netalertx/server:latest` | `docker pull registry.runsh.de/netalertx/server:latest` |
+| `sublarr` | `registry.runsh.de/sublarr/server:latest` | `docker pull registry.runsh.de/sublarr/server:latest` |
+| `memos` | `registry.runsh.de/memos/server:stable` | `docker pull registry.runsh.de/memos/server:stable` |
+| `jellyfin` | `registry.runsh.de/jellyfin/server:latest` | `docker pull registry.runsh.de/jellyfin/server:latest` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。
