@@ -595,3 +595,177 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: wallos
+    source: docker.io/bellamy/wallos:latest
+    targets:
+      home: wallos/server:latest
+      aliyun: wallos:latest
+
+  - id: mealie
+    source: ghcr.io/mealie-recipes/mealie:latest
+    targets:
+      home: mealie/server:latest
+      aliyun: mealie:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: karakeep
+    source: ghcr.io/karakeep-app/karakeep:release
+    targets:
+      home: karakeep/server:release
+      aliyun: karakeep:release
+
+  - id: karakeep-chrome
+    source: ghcr.io/karakeep-app/karakeep-chrome:release
+    targets:
+      home: karakeep/chrome:release
+      aliyun: karakeep-chrome:release
+
+  - id: karakeep-meilisearch-1-41-0
+    source: docker.io/getmeili/meilisearch:v1.41.0
+    targets:
+      home: karakeep/meilisearch:v1.41.0
+      aliyun: karakeep-meilisearch:v1.41.0
+
+  - id: dozzle
+    source: docker.io/amir20/dozzle:latest
+    targets:
+      home: dozzle/server:latest
+      aliyun: dozzle:latest
+
+  - id: dpanel
+    source: docker.io/dpanel/dpanel:latest
+    targets:
+      home: dpanel/server:latest
+      aliyun: dpanel:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: pairdrop
+    source: lscr.io/linuxserver/pairdrop:latest
+    targets:
+      home: pairdrop/server:latest
+      aliyun: pairdrop:latest
+
+  - id: gitea
+    source: docker.gitea.com/gitea:latest
+    targets:
+      home: gitea/server:latest
+      aliyun: gitea:latest
+
+  - id: snipe-it
+    source: docker.io/snipe/snipe-it:latest
+    targets:
+      home: snipe-it/server:latest
+      aliyun: snipe-it:latest
+
+  - id: mariadb-11-4-7
+    source: docker.io/library/mariadb:11.4.7
+    targets:
+      home: common/mariadb:11.4.7
+      aliyun: mariadb:11.4.7
+
+  - id: mysql-8-0
+    source: docker.io/library/mysql:8.0
+    targets:
+      home: common/mysql:8.0
+      aliyun: mysql:8.0
+
+  - id: speedtest-tracker
+    source: lscr.io/linuxserver/speedtest-tracker:latest
+    targets:
+      home: speedtest-tracker/server:latest
+      aliyun: speedtest-tracker:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: beszel
+    source: docker.io/henrygd/beszel:latest
+    targets:
+      home: beszel/hub:latest
+      aliyun: beszel:latest
+
+  - id: beszel-agent
+    source: docker.io/henrygd/beszel-agent:latest
+    targets:
+      home: beszel/agent:latest
+      aliyun: beszel-agent:latest
+
+  - id: n8n
+    source: docker.n8n.io/n8nio/n8n:latest
+    targets:
+      home: n8n/server:latest
+      aliyun: n8n:latest
+
+  - id: guacamole-1-6-0
+    source: docker.io/guacamole/guacamole:1.6.0
+    targets:
+      home: guacamole/web:1.6.0
+      aliyun: guacamole:1.6.0
+
+  - id: guacd-1-6-0
+    source: docker.io/guacamole/guacd:1.6.0
+    targets:
+      home: guacamole/guacd:1.6.0
+      aliyun: guacd:1.6.0
+
+  - id: lubelogger
+    source: docker.io/hargata/lubelogger:latest
+    targets:
+      home: lubelogger/server:latest
+      aliyun: lubelogger:latest
+
+  - id: olivetin
+    source: docker.io/jamesread/olivetin:latest
+    targets:
+      home: olivetin/server:latest
+      aliyun: olivetin:latest
+
+  - id: dawarich
+    source: docker.io/freikin/dawarich:latest
+    targets:
+      home: dawarich/server:latest
+      aliyun: dawarich:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: redis-7-4-alpine
+    source: docker.io/library/redis:7.4-alpine
+    targets:
+      home: common/redis:7.4-alpine
+      aliyun: redis:7.4-alpine
+
+  - id: dawarich-postgis-17-3-5
+    source: docker.io/postgis/postgis:17-3.5-alpine
+    targets:
+      home: dawarich/postgis:17-3.5-alpine
+      aliyun: dawarich-postgis:17-3.5-alpine
+
+  - id: dawarich-postgis-arm64-17-3-5
+    source: docker.io/imresamu/postgis:17-3.5-alpine
+    targets:
+      home: dawarich/postgis-arm64:17-3.5-alpine
+      aliyun: dawarich-postgis-arm64:17-3.5-alpine
+
+  - id: netalertx
+    source: docker.io/jokobsk/netalertx:latest
+    targets:
+      home: netalertx/server:latest
+      aliyun: netalertx:latest
+
+  - id: sublarr
+    source: ghcr.io/abrechen2/sublarr:latest
+    targets:
+      home: sublarr/server:latest
+      aliyun: sublarr:latest
+    required_platforms: [linux/amd64, linux/arm64]
+
+  - id: memos
+    source: docker.io/neosmemo/memos:stable
+    targets:
+      home: memos/server:stable
+      aliyun: memos:stable
+
+  - id: jellyfin
+    source: docker.io/jellyfin/jellyfin:latest
+    targets:
+      home: jellyfin/server:latest
+      aliyun: jellyfin:latest
+    required_platforms: [linux/amd64, linux/arm64]
