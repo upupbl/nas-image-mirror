@@ -835,3 +835,10 @@ images:
     copy_platforms:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
+
+  - id: backrest
+    source: ghcr.io/garethgeorge/backrest:latest
+    targets:
+      home: backrest/server:latest
+      aliyun: backrest:latest
+    required_platforms: [linux/amd64, linux/arm64]
