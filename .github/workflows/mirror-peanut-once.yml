@@ -1,0 +1,55 @@
+name: Mirror PeaNUT images once
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/mirror-peanut-once.yml
+
+permissions:
+  contents: read
+
+concurrency:
+  group: mirror-peanut-once
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    env:
+      HOME_REGISTRY: ${{ secrets.HOME_REGISTRY }}
+      HOME_NAMESPACE: ${{ secrets.HOME_NAMESPACE }}
+      HOME_REGISTRY_USER: ${{ secrets.HOME_REGISTRY_USER }}
+      HOME_REGISTRY_PASSWORD: ${{ secrets.HOME_REGISTRY_PASSWORD }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Install mirror dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends skopeo
+          sudo curl --fail --silent --show-error --location \
+            https://github.com/regclient/regclient/releases/download/v0.11.5/regctl-linux-amd64 \
+            --output /usr/local/bin/regctl
+          sudo chmod 0755 /usr/local/bin/regctl
+          python3 -m pip install --disable-pip-version-check -r requirements.txt
+
+      - name: Validate manifest
+        run: python3 scripts/mirror.py validate
+
+      - name: Mirror PeaNUT images
+        run: >-
+          python3 scripts/mirror.py mirror
+          --image-ids peanut,nut-upsd
+          --destinations home
+
+      - name: Remove registry sessions
+        if: always()
+        run: |
+          rm -f "${XDG_RUNTIME_DIR:-/tmp}/containers/auth.json" \
+            "${HOME}/.config/containers/auth.json" \
+            "${HOME}/.docker/config.json" \
+            "${HOME}/.regctl/config.json"
