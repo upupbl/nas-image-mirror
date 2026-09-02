@@ -43,7 +43,7 @@ concurrency:
 
 jobs:
   mirror:
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || vars.MIRROR_ENABLED == 'true'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule' || github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 240
     env:
