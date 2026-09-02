@@ -78,6 +78,8 @@ docker pull registry.runsh.de/grocy/server:latest
 docker pull registry.runsh.de/pingvin-share-x/server:latest
 docker pull registry.runsh.de/easyappointments/server:latest
 docker pull registry.runsh.de/docuseal/server:latest
+docker pull registry.runsh.de/webtrees/server:latest
+docker pull registry.runsh.de/common/mariadb:12
 docker pull registry.runsh.de/wallos/server:latest
 docker pull registry.runsh.de/mealie/server:latest
 docker pull registry.runsh.de/karakeep/server:release

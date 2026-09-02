@@ -598,6 +598,26 @@ images:
       home: [linux/amd64, linux/arm64]
       aliyun: [linux/amd64, linux/arm64]
 
+  - id: webtrees
+    source: ghcr.io/nathanvaughn/webtrees:latest
+    targets:
+      home: webtrees/server:latest
+      aliyun: webtrees:latest
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
+
+  - id: mariadb-12
+    source: docker.io/library/mariadb:12
+    targets:
+      home: common/mariadb:12
+      aliyun: mariadb:12
+    required_platforms: [linux/amd64, linux/arm64]
+    copy_platforms:
+      home: [linux/amd64, linux/arm64]
+      aliyun: [linux/amd64, linux/arm64]
+
   - id: wallos
     source: docker.io/bellamy/wallos:latest
     targets:
