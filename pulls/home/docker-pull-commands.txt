@@ -109,3 +109,5 @@ docker pull registry.runsh.de/jellyfin/server:latest
 docker pull registry.runsh.de/koillection/server:latest
 docker pull registry.runsh.de/common/postgres:16
 docker pull registry.runsh.de/joplin/server:latest
+docker pull registry.runsh.de/peanut/server:latest
+docker pull registry.runsh.de/peanut/nut-upsd:latest

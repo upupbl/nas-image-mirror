@@ -4,7 +4,7 @@
 同一个地址会由 Docker 自动选择 AMD64 或 ARM64（前提是该镜像提供对应架构）。
 当前仓库允许匿名只读拉取，不需要先执行 `docker login`。
 
-共 109 个镜像。
+共 111 个镜像。
 
 | 清单 ID | 完整镜像地址 | 拉取命令 |
 | --- | --- | --- |
@@ -117,5 +117,7 @@
 | `koillection` | `registry.runsh.de/koillection/server:latest` | `docker pull registry.runsh.de/koillection/server:latest` |
 | `postgres-16` | `registry.runsh.de/common/postgres:16` | `docker pull registry.runsh.de/common/postgres:16` |
 | `joplin-server` | `registry.runsh.de/joplin/server:latest` | `docker pull registry.runsh.de/joplin/server:latest` |
+| `peanut` | `registry.runsh.de/peanut/server:latest` | `docker pull registry.runsh.de/peanut/server:latest` |
+| `nut-upsd` | `registry.runsh.de/peanut/nut-upsd:latest` | `docker pull registry.runsh.de/peanut/nut-upsd:latest` |
 
 纯命令版本见 [`docker-pull-commands.txt`](docker-pull-commands.txt)。
