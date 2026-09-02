@@ -842,3 +842,10 @@ images:
       home: backrest/server:latest
       aliyun: backrest:latest
     required_platforms: [linux/amd64, linux/arm64]
+
+  - id: pulse
+    source: docker.io/rcourtman/pulse:latest
+    targets:
+      home: pulse/server:latest
+      aliyun: pulse:latest
+    required_platforms: [linux/amd64, linux/arm64]

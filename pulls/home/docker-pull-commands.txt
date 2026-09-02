@@ -114,3 +114,4 @@ docker pull registry.runsh.de/joplin/server:latest
 docker pull registry.runsh.de/peanut/server:latest
 docker pull registry.runsh.de/peanut/nut-upsd:latest
 docker pull registry.runsh.de/backrest/server:latest
+docker pull registry.runsh.de/pulse/server:latest
